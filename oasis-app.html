@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OASIS – Ruhiy Farovonlik</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep:    #0B2320;
+    --teal:    #0D6B5E;
+    --mint:    #2ECBA8;
+    --sage:    #5FA37A;
+    --cream:   #F4F0E8;
+    --sand:    #E8DFD0;
+    --white:   #FFFFFF;
+    --muted:   #8BA89E;
+    --gold:    #C9A84C;
+    --coral:   #D4614A;
+    --text:    #1A3330;
+    --light-bg:#EDF5F2;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Phone shell */
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: var(--cream);
+    border-radius: 50px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6), inset 0 0 0 1.5px rgba(255,255,255,0.1);
+  }
+
+  /* Screens */
+  .screen {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    transition: transform 0.55s cubic-bezier(0.77,0,0.18,1), opacity 0.4s ease;
+    transform: translateX(100%);
+    opacity: 0;
+    overflow: hidden;
+  }
+  .screen.active { transform: translateX(0); opacity: 1; }
+  .screen.exit   { transform: translateX(-100%); opacity: 0; }
+
+  /* ── SCREEN 1: Splash ──────────────────────────────── */
+  #s-splash {
+    background: var(--deep);
+    justify-content: center; align-items: center;
+    gap: 0;
+  }
+  .splash-orb {
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 38%, #2ECBA8 0%, #0D6B5E 45%, #0B2320 100%);
+    box-shadow: 0 0 80px rgba(46,203,168,0.35), 0 0 160px rgba(46,203,168,0.12);
+    display: flex; align-items: center; justify-content: center;
+    animation: breathe 3.5s ease-in-out infinite;
+    margin-bottom: 36px;
+  }
+  @keyframes breathe {
+    0%,100% { transform: scale(1); box-shadow: 0 0 80px rgba(46,203,168,0.35), 0 0 160px rgba(46,203,168,0.12); }
+    50%      { transform: scale(1.05); box-shadow: 0 0 110px rgba(46,203,168,0.5), 0 0 220px rgba(46,203,168,0.18); }
+  }
+  .splash-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px; font-weight: 700; letter-spacing: 10px;
+    color: var(--white); text-align: center;
+  }
+  .splash-sub {
+    font-size: 13px; color: var(--mint); letter-spacing: 2px;
+    text-transform: uppercase; margin-top: 8px; text-align: center;
+  }
+  .splash-btn {
+    margin-top: 64px; padding: 16px 52px;
+    background: var(--mint); color: var(--deep);
+    border: none; border-radius: 50px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .splash-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(46,203,168,0.4); }
+
+  /* ── SCREEN 2: Quiz intro ──────────────────────────── */
+  #s-quiz-intro {
+    background: var(--deep);
+    padding: 60px 32px 40px;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .quiz-intro-badge {
+    background: rgba(46,203,168,0.15);
+    border: 1px solid rgba(46,203,168,0.4);
+    color: var(--mint); font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; padding: 6px 16px; border-radius: 20px;
+  }
+  .quiz-intro-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px; line-height: 1.2; color: var(--white);
+    margin-top: 24px;
+  }
+  .quiz-intro-title em { color: var(--mint); font-style: italic; }
+  .quiz-intro-desc {
+    font-size: 15px; color: var(--muted); line-height: 1.65;
+    margin-top: 16px;
+  }
+  .quiz-steps {
+    display: flex; flex-direction: column; gap: 14px;
+    margin-top: 32px;
+  }
+  .quiz-step-item {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .qs-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(46,203,168,0.2); border: 1px solid var(--mint);
+    color: var(--mint); font-size: 13px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .qs-text { font-size: 14px; color: var(--white); }
+  .big-btn {
+    width: 100%; padding: 17px;
+    background: var(--mint); color: var(--deep);
+    border: none; border-radius: 16px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .big-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(46,203,168,0.4); }
+  .big-btn.outline {
+    background: transparent; border: 1.5px solid rgba(255,255,255,0.2);
+    color: var(--white); margin-top: 12px;
+  }
+
+  /* ── SCREEN 3-7: Quiz questions ────────────────────── */
+  .quiz-screen {
+    background: var(--cream);
+    display: flex; flex-direction: column;
+    padding: 0 0 32px;
+  }
+  .quiz-header {
+    background: var(--deep);
+    padding: 52px 24px 24px;
+    position: relative;
+  }
+  .quiz-progress-bar {
+    height: 3px; background: rgba(255,255,255,0.12);
+    border-radius: 2px; margin-bottom: 20px; overflow: hidden;
+  }
+  .quiz-progress-fill {
+    height: 100%; background: var(--mint);
+    border-radius: 2px; transition: width 0.4s ease;
+  }
+  .quiz-q-label {
+    font-size: 11px; color: var(--mint); letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .quiz-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; color: var(--white); line-height: 1.35;
+  }
+  .quiz-body { padding: 24px 20px 0; flex: 1; overflow-y: auto; }
+
+  .option-card {
+    background: var(--white);
+    border: 2px solid transparent;
+    border-radius: 16px; padding: 16px 18px;
+    margin-bottom: 12px; cursor: pointer;
+    display: flex; align-items: center; gap: 14px;
+    transition: all 0.2s ease;
+  }
+  .option-card:hover { border-color: var(--mint); background: #f0faf7; }
+  .option-card.selected { border-color: var(--teal); background: #e3f5ef; }
+  .opt-emoji { font-size: 24px; width: 40px; text-align: center; flex-shrink: 0; }
+  .opt-text { font-size: 15px; color: var(--text); font-weight: 500; line-height: 1.3; }
+  .opt-sub  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .scale-row {
+    display: flex; gap: 10px; justify-content: space-between;
+    padding: 8px 0;
+  }
+  .scale-btn {
+    flex: 1; aspect-ratio: 1;
+    border: 2px solid var(--sand); border-radius: 14px;
+    background: var(--white); cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: var(--text);
+    transition: all 0.2s;
+  }
+  .scale-btn span { font-size: 9px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+  .scale-btn:hover, .scale-btn.selected { border-color: var(--teal); background: #e3f5ef; }
+
+  .quiz-footer {
+    padding: 16px 20px 0;
+    display: flex; gap: 12px;
+  }
+  .q-back {
+    flex: 0 0 52px; height: 52px; border-radius: 14px;
+    background: var(--white); border: 2px solid var(--sand);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; transition: all 0.2s;
+  }
+  .q-back:hover { border-color: var(--teal); }
+  .q-next {
+    flex: 1; height: 52px; border-radius: 14px;
+    background: var(--teal); border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+    color: var(--white); transition: all 0.2s;
+  }
+  .q-next:hover { background: var(--mint); color: var(--deep); }
+  .q-next:disabled { background: var(--sand); color: var(--muted); cursor: not-allowed; }
+
+  /* ── Loading/Analysis screen ───────────────────────── */
+  #s-analyzing {
+    background: var(--deep);
+    justify-content: center; align-items: center;
+    gap: 0; padding: 40px;
+  }
+  .analyze-orb {
+    width: 160px; height: 160px; border-radius: 50%;
+    border: 2px solid rgba(46,203,168,0.3);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; margin-bottom: 40px;
+    animation: spin-ring 3s linear infinite;
+  }
+  @keyframes spin-ring {
+    to { transform: rotate(360deg); }
+  }
+  .analyze-orb::before {
+    content: '';
+    position: absolute; inset: -8px; border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: var(--mint);
+    animation: spin-ring 1.8s linear infinite reverse;
+  }
+  .analyze-inner {
+    width: 120px; height: 120px; border-radius: 50%;
+    background: radial-gradient(circle, #1a4a3e 0%, #0B2320 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px;
+    animation: breathe 2s ease-in-out infinite;
+  }
+  .analyze-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; color: var(--white); text-align: center; margin-bottom: 12px;
+  }
+  .analyze-sub { font-size: 14px; color: var(--muted); text-align: center; margin-bottom: 36px; }
+  .analyze-steps { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+  .a-step {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    opacity: 0; transform: translateX(-20px);
+    transition: all 0.5s ease;
+  }
+  .a-step.done { opacity: 1; transform: translateX(0); }
+  .a-icon { font-size: 18px; }
+  .a-text { font-size: 13px; color: var(--muted); flex: 1; }
+  .a-check { color: var(--mint); font-size: 16px; opacity: 0; transition: opacity 0.3s; }
+  .a-step.done .a-check { opacity: 1; }
+
+  /* ── Register screen ───────────────────────────────── */
+  #s-register {
+    background: var(--cream);
+    padding: 0;
+  }
+  .reg-top {
+    background: var(--deep);
+    padding: 52px 24px 32px;
+  }
+  .reg-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.2); border: 1px solid rgba(201,168,76,0.5);
+    color: var(--gold); font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; padding: 5px 14px; border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .reg-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px; color: var(--white); line-height: 1.2; margin-bottom: 8px;
+  }
+  .reg-sub { font-size: 13px; color: var(--muted); }
+  .reg-body { padding: 28px 24px; flex: 1; }
+  .field-label { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .field-input {
+    width: 100%; padding: 14px 16px;
+    background: var(--white); border: 2px solid var(--sand);
+    border-radius: 14px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+    color: var(--text); outline: none; transition: border-color 0.2s;
+    margin-bottom: 16px;
+  }
+  .field-input:focus { border-color: var(--teal); }
+  .field-row { display: flex; gap: 12px; }
+  .field-row .field-group { flex: 1; }
+  .field-group { display: flex; flex-direction: column; }
+  .field-group .field-input { margin-bottom: 0; }
+  .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+  .divider::before,.divider::after { content:''; flex:1; height:1px; background:var(--sand); }
+  .divider span { font-size: 12px; color: var(--muted); }
+  .social-row { display: flex; gap: 10px; }
+  .social-btn {
+    flex: 1; padding: 13px; border-radius: 14px;
+    border: 2px solid var(--sand); background: var(--white);
+    cursor: pointer; font-size: 20px; transition: all 0.2s;
+  }
+  .social-btn:hover { border-color: var(--teal); background: var(--light-bg); }
+  .terms { font-size: 11px; color: var(--muted); text-align: center; margin-top: 16px; line-height: 1.5; }
+  .terms a { color: var(--teal); text-decoration: none; }
+
+  /* ── Results screen ────────────────────────────────── */
+  #s-results {
+    background: var(--cream);
+    overflow-y: auto;
+  }
+  .results-hero {
+    background: var(--deep);
+    padding: 52px 24px 28px;
+    position: relative; overflow: hidden;
+  }
+  .results-hero::after {
+    content: '';
+    position: absolute; right: -60px; top: -60px;
+    width: 240px; height: 240px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(46,203,168,0.12) 0%, transparent 70%);
+  }
+  .results-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(46,203,168,0.15); border: 1px solid rgba(46,203,168,0.4);
+    color: var(--mint); font-size: 11px; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px;
+  }
+  .results-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; color: var(--white); margin-bottom: 6px;
+  }
+  .results-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+
+  /* Stress gauge */
+  .gauge-wrap { position: relative; text-align: center; margin-bottom: 8px; }
+  .gauge-arc {
+    width: 180px; height: 90px;
+    margin: 0 auto;
+    background: conic-gradient(
+      var(--coral) 0deg 72deg,
+      var(--gold) 72deg 126deg,
+      var(--sage) 126deg 180deg,
+      rgba(255,255,255,0.08) 180deg 360deg
+    );
+    border-radius: 90px 90px 0 0;
+    position: relative; overflow: hidden;
+  }
+  .gauge-arc::after {
+    content: '';
+    position: absolute; bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 130px; height: 65px;
+    background: var(--deep); border-radius: 65px 65px 0 0;
+  }
+  .gauge-needle {
+    position: absolute; bottom: 4px; left: 50%;
+    transform-origin: bottom center;
+    transform: translateX(-50%) rotate(-10deg);
+    width: 3px; height: 56px;
+    background: linear-gradient(to top, var(--mint), transparent);
+    border-radius: 3px; z-index: 2;
+  }
+  .gauge-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px; font-weight: 700; color: var(--white);
+    text-align: center; margin-top: -4px;
+  }
+  .gauge-label { font-size: 12px; color: var(--coral); text-align: center; letter-spacing: 1px; }
+
+  /* Score cards */
+  .results-body { padding: 24px 20px; }
+  .section-title {
+    font-size: 11px; color: var(--muted); letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .result-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+  .r-card {
+    background: var(--white); border-radius: 18px; padding: 16px;
+    display: flex; align-items: center; gap: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .r-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .r-info { flex: 1; }
+  .r-cat { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .r-bar { height: 6px; background: var(--sand); border-radius: 3px; overflow: hidden; }
+  .r-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+  .r-val { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  .insight-box {
+    background: linear-gradient(135deg, var(--deep) 0%, #1a4a3e 100%);
+    border-radius: 20px; padding: 20px;
+    margin-bottom: 20px;
+  }
+  .insight-title {
+    font-size: 13px; color: var(--mint); font-weight: 600; margin-bottom: 8px;
+  }
+  .insight-text {
+    font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.6;
+  }
+
+  /* ── Pricing screen ────────────────────────────────── */
+  #s-pricing {
+    background: var(--cream);
+    overflow-y: auto;
+  }
+  .pricing-hero {
+    background: var(--deep);
+    padding: 52px 24px 28px; text-align: center;
+  }
+  .pricing-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px; color: var(--white); margin-bottom: 8px;
+  }
+  .pricing-sub { font-size: 14px; color: var(--muted); line-height: 1.5; }
+  .toggle-row {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin-top: 20px;
+  }
+  .toggle-label { font-size: 13px; color: var(--muted); }
+  .toggle-label.active { color: var(--white); font-weight: 600; }
+  .toggle-switch {
+    width: 52px; height: 28px; background: rgba(255,255,255,0.1);
+    border-radius: 14px; position: relative; cursor: pointer;
+    border: 1.5px solid rgba(255,255,255,0.2); transition: background 0.3s;
+  }
+  .toggle-switch.on { background: rgba(46,203,168,0.3); border-color: var(--mint); }
+  .toggle-knob {
+    position: absolute; top: 3px; left: 3px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--muted); transition: transform 0.3s, background 0.3s;
+  }
+  .toggle-switch.on .toggle-knob { transform: translateX(24px); background: var(--mint); }
+  .save-badge {
+    background: rgba(201,168,76,0.2); border: 1px solid rgba(201,168,76,0.5);
+    color: var(--gold); font-size: 11px; letter-spacing: 1px;
+    padding: 3px 10px; border-radius: 10px;
+  }
+
+  .pricing-body { padding: 20px 20px 32px; }
+  .plan-card {
+    background: var(--white); border-radius: 22px; padding: 22px;
+    margin-bottom: 14px; cursor: pointer;
+    border: 2.5px solid transparent;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    position: relative; overflow: hidden;
+  }
+  .plan-card:hover { border-color: var(--teal); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.1); }
+  .plan-card.featured { border-color: var(--teal); background: var(--deep); }
+  .plan-card.featured:hover { border-color: var(--mint); }
+  .plan-badge {
+    position: absolute; top: 16px; right: 16px;
+    background: var(--mint); color: var(--deep);
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    padding: 4px 12px; border-radius: 10px; text-transform: uppercase;
+  }
+  .plan-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; }
+  .plan-emoji { font-size: 32px; }
+  .plan-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 2px;
+  }
+  .plan-card.featured .plan-name { color: var(--white); }
+  .plan-tagline { font-size: 12px; color: var(--muted); }
+  .plan-price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 14px; }
+  .plan-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px; font-weight: 700; color: var(--teal);
+  }
+  .plan-card.featured .plan-price { color: var(--mint); }
+  .plan-period { font-size: 13px; color: var(--muted); }
+  .plan-old { font-size: 13px; color: var(--coral); text-decoration: line-through; }
+  .plan-features { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .p-feat { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text); }
+  .plan-card.featured .p-feat { color: rgba(255,255,255,0.85); }
+  .feat-check { color: var(--sage); font-size: 14px; font-weight: 700; }
+  .plan-card.featured .feat-check { color: var(--mint); }
+  .plan-cta {
+    width: 100%; padding: 14px;
+    background: var(--light-bg); color: var(--teal);
+    border: none; border-radius: 14px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+    transition: all 0.2s;
+  }
+  .plan-card.featured .plan-cta { background: var(--mint); color: var(--deep); }
+  .plan-cta:hover { filter: brightness(0.95); transform: translateY(-1px); }
+
+  .free-note { text-align: center; font-size: 12px; color: var(--muted); padding: 8px 0 4px; }
+
+  /* ── Success / Home screen ─────────────────────────── */
+  #s-home {
+    background: var(--cream);
+    overflow-y: auto;
+  }
+  .home-header {
+    background: var(--deep); padding: 52px 24px 28px;
+  }
+  .home-greeting { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .home-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; color: var(--white);
+  }
+  .home-streak {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 10px; background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3); border-radius: 20px;
+    padding: 5px 14px; color: var(--gold); font-size: 12px; font-weight: 600;
+  }
+  .home-body { padding: 24px 20px 100px; }
+
+  /* Garden widget */
+  .garden-card {
+    background: linear-gradient(135deg, #1a4a3e 0%, var(--deep) 100%);
+    border-radius: 22px; padding: 20px; margin-bottom: 20px;
+    position: relative; overflow: hidden;
+  }
+  .garden-card::before {
+    content: '🌿🌱🌿';
+    position: absolute; bottom: -4px; right: 12px;
+    font-size: 42px; opacity: 0.25; letter-spacing: -4px;
+  }
+  .garden-label { font-size: 11px; color: var(--mint); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .garden-trees { font-size: 38px; letter-spacing: 6px; margin-bottom: 10px; }
+  .garden-info { font-size: 14px; color: rgba(255,255,255,0.75); }
+  .garden-progress {
+    height: 6px; background: rgba(255,255,255,0.1);
+    border-radius: 3px; margin-top: 12px; overflow: hidden;
+  }
+  .garden-fill {
+    height: 100%; width: 12%;
+    background: linear-gradient(to right, var(--sage), var(--mint));
+    border-radius: 3px;
+  }
+
+  .daily-section { margin-bottom: 24px; }
+  .daily-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .daily-title { font-size: 16px; font-weight: 600; color: var(--text); }
+  .daily-all { font-size: 13px; color: var(--teal); }
+  .session-cards { display: flex; flex-direction: column; gap: 12px; }
+  .session-card {
+    background: var(--white); border-radius: 18px; padding: 16px;
+    display: flex; align-items: center; gap: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    cursor: pointer; transition: transform 0.2s;
+  }
+  .session-card:hover { transform: translateY(-2px); }
+  .session-thumb {
+    width: 60px; height: 60px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; flex-shrink: 0;
+  }
+  .session-info { flex: 1; }
+  .session-name { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .session-meta { font-size: 12px; color: var(--muted); }
+  .session-dur {
+    font-size: 12px; color: var(--teal); font-weight: 600;
+    background: var(--light-bg); padding: 4px 10px; border-radius: 10px;
+  }
+
+  /* nav bar */
+  .bottom-nav {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 82px; background: var(--white);
+    border-top: 1px solid var(--sand);
+    display: flex; align-items: center; justify-content: space-around;
+    padding-bottom: 12px;
+  }
+  .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 8px 16px; }
+  .nav-icon { font-size: 22px; }
+  .nav-label { font-size: 10px; color: var(--muted); }
+  .nav-btn.active .nav-label { color: var(--teal); }
+  .nav-btn.active .nav-icon { filter: drop-shadow(0 0 4px rgba(13,107,94,0.5)); }
+
+  /* notch */
+  .notch {
+    position: absolute; top: 14px; left: 50%;
+    transform: translateX(-50%);
+    width: 120px; height: 34px;
+    background: #111; border-radius: 20px; z-index: 100;
+  }
+
+  /* Utility */
+  .mt-auto { margin-top: auto; }
+  .px-24 { padding: 0 24px; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <!-- SCREEN 1: Splash -->
+  <div class="screen active" id="s-splash">
+    <div class="splash-orb">
+      <span style="font-size:64px">🌿</span>
+    </div>
+    <div class="splash-logo">OASIS</div>
+    <div class="splash-sub">Ruhiy Farovonlik Boshpanasi</div>
+    <button class="splash-btn" onclick="goto('s-quiz-intro')">Boshlash →</button>
+  </div>
+
+  <!-- SCREEN 2: Quiz intro -->
+  <div class="screen" id="s-quiz-intro">
+    <div style="background:var(--deep);padding:52px 28px 32px;flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+      <div>
+        <div class="quiz-intro-badge">🧠 Stres Tahlili</div>
+        <div class="quiz-intro-title">Hayotingizda<br>nima siz uchun<br><em>og'ir?</em></div>
+        <div class="quiz-intro-desc">AI-tahlil orqali stres manbalarini aniqlang va shaxsiy yordam oling. Bu faqat 3 daqiqa vaqtingizni oladi.</div>
+        <div class="quiz-steps">
+          <div class="quiz-step-item">
+            <div class="qs-num">1</div>
+            <div class="qs-text">5 ta tezkor savol javob bering</div>
+          </div>
+          <div class="quiz-step-item">
+            <div class="qs-num">2</div>
+            <div class="qs-text">AI natijangizni tahlil qiladi</div>
+          </div>
+          <div class="quiz-step-item">
+            <div class="qs-num">3</div>
+            <div class="qs-text">Shaxsiy profil va reja oling</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button class="big-btn" onclick="goto('s-q1')">Tahlilni boshlash</button>
+        <button class="big-btn outline" onclick="goto('s-q1')">Qanday ishlaydi?</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: Q1 -->
+  <div class="screen quiz-screen" id="s-q1">
+    <div class="quiz-header">
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:20%"></div></div>
+      <div class="quiz-q-label">Savol 1 / 5</div>
+      <div class="quiz-question">Hozirgi hayotingizda<br>eng ko'p nima charchatadi?</div>
+    </div>
+    <div class="quiz-body">
+      <div class="option-card" onclick="selectOpt(this,'s-q2')">
+        <div class="opt-emoji">💼</div>
+        <div><div class="opt-text">Ish va karyera</div><div class="opt-sub">Muddatlar, mas'uliyat, muvaffaqiyat bosimi</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-q2')">
+        <div class="opt-emoji">👨‍👩‍👧</div>
+        <div><div class="opt-text">Oila va munosabatlar</div><div class="opt-sub">Ziddiyatlar, kutishlar, yolg'izlik</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-q2')">
+        <div class="opt-emoji">📱</div>
+        <div><div class="opt-text">Raqamli haddan ziyodlik</div><div class="opt-sub">Ijtimoiy tarmoqlar, yangiliklar, ekran vaqti</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-q2')">
+        <div class="opt-emoji">💰</div>
+        <div><div class="opt-text">Moliyaviy tashvishlar</div><div class="opt-sub">Pul muammolari, kelajak xavotiri</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-q2')">
+        <div class="opt-emoji">🔋</div>
+        <div><div class="opt-text">Jismoniy va energiya</div><div class="opt-sub">Uyqu, ovqatlanish, harakat etishmovchiligi</div></div>
+      </div>
+    </div>
+    <div class="quiz-footer">
+      <button class="q-back" onclick="goto('s-quiz-intro')">←</button>
+      <button class="q-next" onclick="goto('s-q2')">Keyingisi →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: Q2 -->
+  <div class="screen quiz-screen" id="s-q2">
+    <div class="quiz-header">
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:40%"></div></div>
+      <div class="quiz-q-label">Savol 2 / 5</div>
+      <div class="quiz-question">Stressni his qilganingizda odatda nima qilasiz?</div>
+    </div>
+    <div class="quiz-body">
+      <div class="option-card" onclick="selectOpt(this,'s-q3')">
+        <div class="opt-emoji">📺</div>
+        <div><div class="opt-text">Ijtimoiy tarmoq yoki serialga kirib ketaman</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-q3')">
+        <div class="opt-emoji">🍕</div>
+        <div><div class="opt-text">Ko'proq yeyishga yoki ichayman</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-q3')">
+        <div class="opt-emoji">🚶</div>
+        <div><div class="opt-text">Sayr qilaman yoki jismoniy mashq qilaman</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-q3')">
+        <div class="opt-emoji">😤</div>
+        <div><div class="opt-text">Ichimda yig'ib, boshqalarga qo'pol bo'laman</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-q3')">
+        <div class="opt-emoji">😴</div>
+        <div><div class="opt-text">Uxlashga harakat qilaman</div></div>
+      </div>
+    </div>
+    <div class="quiz-footer">
+      <button class="q-back" onclick="goto('s-q1')">←</button>
+      <button class="q-next" onclick="goto('s-q3')">Keyingisi →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: Q3 – Scale -->
+  <div class="screen quiz-screen" id="s-q3">
+    <div class="quiz-header">
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:60%"></div></div>
+      <div class="quiz-q-label">Savol 3 / 5</div>
+      <div class="quiz-question">Oxirgi haftada uxlash qiyinchiligini qanday baholaysiz?</div>
+    </div>
+    <div class="quiz-body">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:16px;">1 = Juda yaxshi · 5 = Juda qiyin</div>
+      <div class="scale-row">
+        <button class="scale-btn" onclick="selectScale(this,'s-q4')">1<span>Yaxshi</span></button>
+        <button class="scale-btn" onclick="selectScale(this,'s-q4')">2<span>Normal</span></button>
+        <button class="scale-btn" onclick="selectScale(this,'s-q4')">3<span>O'rtacha</span></button>
+        <button class="scale-btn" onclick="selectScale(this,'s-q4')">4<span>Qiyin</span></button>
+        <button class="scale-btn" onclick="selectScale(this,'s-q4')">5<span>Juda qiyin</span></button>
+      </div>
+      <div style="background:var(--white);border-radius:18px;padding:16px;margin-top:24px;border:1px solid var(--sand);">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">🔍 Nima uchun bu muhim?</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.55;">Uyqu sifati stres darajasiga 73% ta'sir ko'rsatadi. OASIS uyqu oldi rituallari sizga yordam beradi.</div>
+      </div>
+    </div>
+    <div class="quiz-footer">
+      <button class="q-back" onclick="goto('s-q2')">←</button>
+      <button class="q-next" onclick="goto('s-q4')">Keyingisi →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 6: Q4 -->
+  <div class="screen quiz-screen" id="s-q4">
+    <div class="quiz-header">
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:80%"></div></div>
+      <div class="quiz-q-label">Savol 4 / 5</div>
+      <div class="quiz-question">Siz kim ekansiz? (Kundalik hayotingiz)</div>
+    </div>
+    <div class="quiz-body">
+      <div class="option-card" onclick="selectOpt(this,'s-q5')">
+        <div class="opt-emoji">🎓</div>
+        <div><div class="opt-text">Talaba</div><div class="opt-sub">Imtihon, ijtimoiy bosim, kelajak xavotiri</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-q5')">
+        <div class="opt-emoji">💼</div>
+        <div><div class="opt-text">Ishlovchi professional</div><div class="opt-sub">Ish-uy muvozanati, o'sish bosimi</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-q5')">
+        <div class="opt-emoji">🎮</div>
+        <div><div class="opt-text">O'yinchi / Yaratuvchi</div><div class="opt-sub">Tilt, burnout, giperfoküs</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-q5')">
+        <div class="opt-emoji">👶</div>
+        <div><div class="opt-text">Ota yoki ona</div><div class="opt-sub">Bola tarbiyasi, vaqt tanqisligi, charchoq</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-q5')">
+        <div class="opt-emoji">🏥</div>
+        <div><div class="opt-text">Tibbiyot / Yordam xizmati</div><div class="opt-sub">Hissiy zo'riqish, empat charchoq</div></div>
+      </div>
+    </div>
+    <div class="quiz-footer">
+      <button class="q-back" onclick="goto('s-q3')">←</button>
+      <button class="q-next" onclick="goto('s-q5')">Keyingisi →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 7: Q5 -->
+  <div class="screen quiz-screen" id="s-q5">
+    <div class="quiz-header">
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:100%"></div></div>
+      <div class="quiz-q-label">Savol 5 / 5 · Oxirgi!</div>
+      <div class="quiz-question">Kun davomida o'zingiz uchun necha daqiqa ajrata olasiz?</div>
+    </div>
+    <div class="quiz-body">
+      <div class="option-card" onclick="selectOpt(this,'s-analyzing')">
+        <div class="opt-emoji">⚡</div>
+        <div><div class="opt-text">3-5 daqiqa</div><div class="opt-sub">Juda band hayot — mikro-sessiyalar uchun</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-analyzing')">
+        <div class="opt-emoji">🕐</div>
+        <div><div class="opt-text">10-15 daqiqa</div><div class="opt-sub">Ertalab yoki tunda vaqt topaman</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-analyzing')">
+        <div class="opt-emoji">🌅</div>
+        <div><div class="opt-text">20-30 daqiqa</div><div class="opt-sub">Kundalik amaliyot istagi bor</div></div>
+      </div>
+      <div class="option-card" onclick="selectOpt(this,'s-analyzing')">
+        <div class="opt-emoji">🌿</div>
+        <div><div class="opt-text">Bir soatdan ko'p</div><div class="opt-sub">Jiddiy o'zgarish istiman</div></div>
+      </div>
+    </div>
+    <div class="quiz-footer">
+      <button class="q-back" onclick="goto('s-q4')">←</button>
+      <button class="q-next" onclick="startAnalysis()">Natijani ko'rish →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 8: Analyzing -->
+  <div class="screen" id="s-analyzing">
+    <div style="background:var(--deep);width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px;">
+      <div class="analyze-orb">
+        <div class="analyze-inner">🧠</div>
+      </div>
+      <div class="analyze-title">Tahlil qilinmoqda…</div>
+      <div class="analyze-sub">Javoblaringiz asosida shaxsiy profilingiz yaratilmoqda</div>
+      <div class="analyze-steps">
+        <div class="a-step" id="a1"><span class="a-icon">📊</span><span class="a-text">Stres manbalarini aniqlash</span><span class="a-check">✓</span></div>
+        <div class="a-step" id="a2"><span class="a-icon">🧬</span><span class="a-text">Psixologik profil yaratish</span><span class="a-check">✓</span></div>
+        <div class="a-step" id="a3"><span class="a-icon">🎯</span><span class="a-text">Shaxsiy dastur tuzish</span><span class="a-check">✓</span></div>
+        <div class="a-step" id="a4"><span class="a-icon">✨</span><span class="a-text">Natijalar tayyor!</span><span class="a-check">✓</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 9: Register -->
+  <div class="screen" id="s-register" style="background:var(--cream);display:flex;flex-direction:column;">
+    <div class="reg-top">
+      <div class="reg-badge">🔒 Natijangiz tayyor</div>
+      <div class="reg-title">Profilingizni yarating va natijani<br>ko'ring</div>
+      <div class="reg-sub">Shaxsiy tahlil va dasturingizni saqlash uchun ro'yxatdan o'ting</div>
+    </div>
+    <div class="reg-body" style="overflow-y:auto;">
+      <div style="margin-bottom:16px;">
+        <div class="field-row">
+          <div class="field-group">
+            <div class="field-label">Ism</div>
+            <input class="field-input" type="text" placeholder="Aziz" id="reg-name" style="margin-bottom:0">
+          </div>
+          <div class="field-group">
+            <div class="field-label">Yoshingiz</div>
+            <input class="field-input" type="number" placeholder="25" style="margin-bottom:0">
+          </div>
+        </div>
+      </div>
+      <div class="field-label">Email</div>
+      <input class="field-input" type="email" placeholder="aziz@email.com">
+      <div class="field-label">Parol</div>
+      <input class="field-input" type="password" placeholder="••••••••">
+      <div class="divider"><span>yoki davom eting</span></div>
+      <div class="social-row">
+        <button class="social-btn">🍎</button>
+        <button class="social-btn">🔵</button>
+        <button class="social-btn">📧</button>
+      </div>
+      <div class="terms">Ro'yxatdan o'tish orqali siz <a href="#">Foydalanish shartlari</a> va <a href="#">Maxfiylik siyosatiga</a> rozilik bildirasiz. 12+ yoshdagilar uchun.</div>
+      <button class="big-btn" style="margin-top:18px;" onclick="goto('s-results')">Profilni yaratish →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 10: Results -->
+  <div class="screen" id="s-results">
+    <div class="results-hero">
+      <div class="results-badge">✨ Shaxsiy Tahlil</div>
+      <div class="results-name">Aziz, sizning profilingiz</div>
+      <div class="results-sub">Javoblaringiz asosida tayyorlangan stres tahlili</div>
+      <div class="gauge-wrap">
+        <div class="gauge-arc"></div>
+        <div class="gauge-needle"></div>
+      </div>
+      <div class="gauge-value">67</div>
+      <div class="gauge-label">⚠ O'RTACHA-YUQORI STRES DARAJASI</div>
+    </div>
+    <div class="results-body" style="overflow-y:auto;padding-bottom:24px;">
+      <div class="section-title">Stres manbalari tahlili</div>
+      <div class="result-cards">
+        <div class="r-card">
+          <div class="r-icon" style="background:#FEF0ED;">💼</div>
+          <div class="r-info">
+            <div class="r-cat">Ish va karyera bosimi</div>
+            <div class="r-bar"><div class="r-fill" style="width:82%;background:var(--coral);"></div></div>
+            <div class="r-val">82% — Asosiy manba</div>
+          </div>
+        </div>
+        <div class="r-card">
+          <div class="r-icon" style="background:#FFF8E6;">📱</div>
+          <div class="r-info">
+            <div class="r-cat">Raqamli charchash</div>
+            <div class="r-bar"><div class="r-fill" style="width:65%;background:var(--gold);"></div></div>
+            <div class="r-val">65% — Katta ta'sir</div>
+          </div>
+        </div>
+        <div class="r-card">
+          <div class="r-icon" style="background:#EEF6F0;">😴</div>
+          <div class="r-info">
+            <div class="r-cat">Uyqu sifati</div>
+            <div class="r-bar"><div class="r-fill" style="width:58%;background:var(--sage);"></div></div>
+            <div class="r-val">58% — O'rtacha</div>
+          </div>
+        </div>
+        <div class="r-card">
+          <div class="r-icon" style="background:#EAF3F9;">🧠</div>
+          <div class="r-info">
+            <div class="r-cat">Hissiy barqarorlik</div>
+            <div class="r-bar"><div class="r-fill" style="width:44%;background:var(--teal);"></div></div>
+            <div class="r-val">44% — Yaxshilanish mumkin</div>
+          </div>
+        </div>
+      </div>
+      <div class="insight-box">
+        <div class="insight-title">🤖 AI Xulosasi</div>
+        <div class="insight-text">Siz ish va raqamli muhitdan keladigan ekstrenal stressorlar bilan kurashayapsiz. Asosiy muammo — kayfiyatni boshqarish strategiyalari etishmovchiligi. Kuniga 5-10 daqiqalik KBT asosidagi mikro-amaliyotlar 30 kun ichida stres darajangizni 40% ga kamaytirishi mumkin.</div>
+      </div>
+      <button class="big-btn" onclick="goto('s-pricing')" style="background:var(--teal);color:var(--white);">Shaxsiy dasturni boshlash →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 11: Pricing -->
+  <div class="screen" id="s-pricing">
+    <div class="pricing-hero">
+      <div class="pricing-title">Sizning dasturingizni tanlang</div>
+      <div class="pricing-sub">Stres darajangizga mos<br>shaxsiylashtirilgan paketlar</div>
+      <div class="toggle-row">
+        <span class="toggle-label active" id="t-monthly">Oylik</span>
+        <div class="toggle-switch" id="billing-toggle" onclick="toggleBilling()">
+          <div class="toggle-knob"></div>
+        </div>
+        <span class="toggle-label" id="t-yearly">Yillik</span>
+        <span class="save-badge">−40%</span>
+      </div>
+    </div>
+    <div class="pricing-body" style="overflow-y:auto;padding-bottom:32px;">
+      <!-- Free -->
+      <div class="plan-card">
+        <div class="plan-top">
+          <div class="plan-emoji">🌱</div>
+          <div>
+            <div class="plan-name">Urug'</div>
+            <div class="plan-tagline">Boshlang'ich, bepul</div>
+          </div>
+        </div>
+        <div class="plan-price-row">
+          <div class="plan-price" style="color:var(--sage);">Bepul</div>
+          <div class="plan-period">abadiy</div>
+        </div>
+        <div class="plan-features">
+          <div class="p-feat"><span class="feat-check">✓</span> 3 ta meditatsiya/oy</div>
+          <div class="p-feat"><span class="feat-check">✓</span> Stres testi va natija</div>
+          <div class="p-feat"><span class="feat-check">✓</span> Virtual bog' (asosiy)</div>
+          <div class="p-feat" style="opacity:0.4"><span>✗</span> <span style="text-decoration:line-through">AI-shaxsiy sessiyalar</span></div>
+          <div class="p-feat" style="opacity:0.4"><span>✗</span> <span style="text-decoration:line-through">Niche flows</span></div>
+        </div>
+        <button class="plan-cta" onclick="goto('s-home')">Bepul boshlash</button>
+      </div>
+
+      <!-- Pro — featured -->
+      <div class="plan-card featured">
+        <div class="plan-badge">🔥 Mashhur</div>
+        <div class="plan-top">
+          <div class="plan-emoji">🌿</div>
+          <div>
+            <div class="plan-name">Ko'chat</div>
+            <div class="plan-tagline">Eng ko'p tanlangan</div>
+          </div>
+        </div>
+        <div class="plan-price-row">
+          <div class="plan-price" id="pro-price">49 000</div>
+          <div class="plan-period" style="color:var(--muted)" id="pro-period">so'm/oy</div>
+          <div class="plan-old" id="pro-old" style="display:none">82 000</div>
+        </div>
+        <div class="plan-features">
+          <div class="p-feat"><span class="feat-check">✓</span> Cheksiz AI-meditatsiyalar</div>
+          <div class="p-feat"><span class="feat-check">✓</span> KBT dialog sessiyalari</div>
+          <div class="p-feat"><span class="feat-check">✓</span> Barcha Niche Flows</div>
+          <div class="p-feat"><span class="feat-check">✓</span> Virtual bog' (to'liq)</div>
+          <div class="p-feat"><span class="feat-check">✓</span> Biometrik integratsiya</div>
+          <div class="p-feat"><span class="feat-check">✓</span> Do'stlar bilan bog' ulashish</div>
+        </div>
+        <button class="plan-cta" onclick="goto('s-home')">Ko'chat bilan boshlash →</button>
+      </div>
+
+      <!-- Premium -->
+      <div class="plan-card">
+        <div class="plan-top">
+          <div class="plan-emoji">🌳</div>
+          <div>
+            <div class="plan-name">Daraxt</div>
+            <div class="plan-tagline">Keng qamrovli himoya</div>
+          </div>
+        </div>
+        <div class="plan-price-row">
+          <div class="plan-price" id="prem-price" style="color:var(--gold);">89 000</div>
+          <div class="plan-period" id="prem-period">so'm/oy</div>
+          <div class="plan-old" id="prem-old" style="display:none">148 000</div>
+        </div>
+        <div class="plan-features">
+          <div class="p-feat"><span class="feat-check" style="color:var(--gold)">✓</span> Ko'chat paketi (hammasi)</div>
+          <div class="p-feat"><span class="feat-check" style="color:var(--gold)">✓</span> Sertifikatlangan terapevt sessiyasi</div>
+          <div class="p-feat"><span class="feat-check" style="color:var(--gold)">✓</span> Haftalik AI hisobot</div>
+          <div class="p-feat"><span class="feat-check" style="color:var(--gold)">✓</span> Oila a'zosi qo'shish (2x)</div>
+          <div class="p-feat"><span class="feat-check" style="color:var(--gold)">✓</span> Offline rejim</div>
+        </div>
+        <button class="plan-cta" onclick="goto('s-home')">Daraxt bilan boshlash</button>
+      </div>
+      <div class="free-note">💳 Kredit karta talab qilinmaydi · Istalgan vaqt bekor qilish</div>
+    </div>
+  </div>
+
+  <!-- SCREEN 12: Home (dashboard) -->
+  <div class="screen" id="s-home">
+    <div class="home-header">
+      <div class="home-greeting">Xayrli erta, 🌤</div>
+      <div class="home-name">Aziz</div>
+      <div class="home-streak">🔥 3 kunlik streak — davom eting!</div>
+    </div>
+    <div class="home-body" style="overflow-y:auto;">
+      <!-- Garden -->
+      <div class="garden-card">
+        <div class="garden-label">Sizning virtual bog'ingiz</div>
+        <div class="garden-trees">🌱</div>
+        <div class="garden-info">Hali 1-hafta — urug' endi unib chiqmoqda</div>
+        <div class="garden-progress"><div class="garden-fill"></div></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;">Keyingi bosqich: Ko'chat → 7 kun sessiya</div>
+      </div>
+
+      <!-- Daily sessions -->
+      <div class="daily-section">
+        <div class="daily-header">
+          <div class="daily-title">Bugungi mashg'ulotlar</div>
+          <div class="daily-all">Barchasi →</div>
+        </div>
+        <div class="session-cards">
+          <div class="session-card">
+            <div class="session-thumb" style="background:#E3F5EF;">🧘</div>
+            <div class="session-info">
+              <div class="session-name">Ertalabki nafas</div>
+              <div class="session-meta">Stres boshqaruvi · Boshlang'ich</div>
+            </div>
+            <div class="session-dur">5 daq</div>
+          </div>
+          <div class="session-card">
+            <div class="session-thumb" style="background:#FFF3E0;">🎮</div>
+            <div class="session-info">
+              <div class="session-name">O'yin oldi fokus</div>
+              <div class="session-meta">Gamer Flow · AI-yaratilgan</div>
+            </div>
+            <div class="session-dur">8 daq</div>
+          </div>
+          <div class="session-card">
+            <div class="session-thumb" style="background:#EEF0FA;">🌙</div>
+            <div class="session-info">
+              <div class="session-name">Kechki uyqu ritualı</div>
+              <div class="session-meta">Uyqu sifati · KBT</div>
+            </div>
+            <div class="session-dur">12 daq</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick mood -->
+      <div style="background:var(--white);border-radius:18px;padding:16px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.05);">
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px;">Hozir kayfiyatingiz qanday?</div>
+        <div style="display:flex;gap:8px;justify-content:space-between;">
+          <button onclick="moodSelect(this)" style="flex:1;padding:10px 4px;border:2px solid var(--sand);border-radius:14px;background:var(--white);font-size:22px;cursor:pointer;transition:all 0.2s;">😔</button>
+          <button onclick="moodSelect(this)" style="flex:1;padding:10px 4px;border:2px solid var(--sand);border-radius:14px;background:var(--white);font-size:22px;cursor:pointer;transition:all 0.2s;">😐</button>
+          <button onclick="moodSelect(this)" style="flex:1;padding:10px 4px;border:2px solid var(--sand);border-radius:14px;background:var(--white);font-size:22px;cursor:pointer;transition:all 0.2s;">🙂</button>
+          <button onclick="moodSelect(this)" style="flex:1;padding:10px 4px;border:2px solid var(--sand);border-radius:14px;background:var(--white);font-size:22px;cursor:pointer;transition:all 0.2s;">😊</button>
+          <button onclick="moodSelect(this)" style="flex:1;padding:10px 4px;border:2px solid var(--sand);border-radius:14px;background:var(--white);font-size:22px;cursor:pointer;transition:all 0.2s;">🤩</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom nav -->
+    <div class="bottom-nav">
+      <div class="nav-btn active"><div class="nav-icon">🏠</div><div class="nav-label">Asosiy</div></div>
+      <div class="nav-btn"><div class="nav-icon">🧘</div><div class="nav-label">Sessiyalar</div></div>
+      <div class="nav-btn"><div class="nav-icon">🌿</div><div class="nav-label">Bog'</div></div>
+      <div class="nav-btn"><div class="nav-icon">📊</div><div class="nav-label">Taraqqiyot</div></div>
+      <div class="nav-btn"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Outer nav hint -->
+<div style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:50;" id="outer-nav">
+</div>
+
+<script>
+let currentScreen = 's-splash';
+
+function goto(id) {
+  const current = document.getElementById(currentScreen);
+  const next = document.getElementById(id);
+  if (!next || !current) return;
+
+  current.classList.remove('active');
+  current.classList.add('exit');
+  setTimeout(() => current.classList.remove('exit'), 600);
+
+  next.classList.add('active');
+  currentScreen = id;
+
+  if (id === 's-analyzing') {
+    runAnalysis();
+  }
+}
+
+function selectOpt(el, nextId) {
+  const parent = el.parentElement;
+  parent.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  setTimeout(() => goto(nextId), 350);
+}
+
+function selectScale(el, nextId) {
+  const parent = el.parentElement;
+  parent.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  setTimeout(() => goto(nextId), 350);
+}
+
+function startAnalysis() {
+  goto('s-analyzing');
+}
+
+function runAnalysis() {
+  const steps = ['a1','a2','a3','a4'];
+  steps.forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById(id).classList.add('done');
+    }, 600 + i * 900);
+  });
+  setTimeout(() => goto('s-register'), 600 + steps.length * 900 + 600);
+}
+
+let isYearly = false;
+function toggleBilling() {
+  isYearly = !isYearly;
+  const toggle = document.getElementById('billing-toggle');
+  toggle.classList.toggle('on', isYearly);
+  document.getElementById('t-monthly').classList.toggle('active', !isYearly);
+  document.getElementById('t-yearly').classList.toggle('active', isYearly);
+
+  if (isYearly) {
+    document.getElementById('pro-price').textContent = '29 000';
+    document.getElementById('pro-period').textContent = 'so\'m/oy · yillik';
+    document.getElementById('pro-old').style.display = 'inline';
+    document.getElementById('prem-price').textContent = '53 000';
+    document.getElementById('prem-period').textContent = 'so\'m/oy · yillik';
+    document.getElementById('prem-old').style.display = 'inline';
+  } else {
+    document.getElementById('pro-price').textContent = '49 000';
+    document.getElementById('pro-period').textContent = 'so\'m/oy';
+    document.getElementById('pro-old').style.display = 'none';
+    document.getElementById('prem-price').textContent = '89 000';
+    document.getElementById('prem-period').textContent = 'so\'m/oy';
+    document.getElementById('prem-old').style.display = 'none';
+  }
+}
+
+function moodSelect(btn) {
+  btn.parentElement.querySelectorAll('button').forEach(b => {
+    b.style.borderColor = 'var(--sand)'; b.style.background = 'var(--white)';
+  });
+  btn.style.borderColor = 'var(--teal)';
+  btn.style.background = '#e3f5ef';
+}
+
+// Auto-start
+setTimeout(() => {
+  document.getElementById('s-splash').classList.add('active');
+}, 100);
+</script>
+</body>
+</html>
